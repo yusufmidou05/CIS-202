@@ -1,6 +1,6 @@
 /*
     File: main.cpp 
-    Description: This application showsg++ how to use structs, iterators, and lambda functions in c++ by managing and sorting pizza orders. It includes functionality to sort orders by size, name, and price using inline lambda expressions with thesort algorithm.
+    Description: This application manages and sorts a list of pizza orders using C++ structs and lambda functions.It demonstrates sorting by size, name, and price using STL algorithms, emphasizing the use of lambdas for custom logic. Outputs are printed in a user-friendly format to simulate a real pizza order system.
     Author: Yusuf Midou
     Email: yusufm3487@student.vvc.edu
     Course#: cis202
@@ -13,68 +13,80 @@
 #include <algorithm>
 #include <string>
 
-// Challenge 1 & 2: Base struct
+using namespace std;
+
+// Struct without price
 struct PizzaOrder {
-    std::string name;
-    int size; // in inches
+    string name;
+    int size;
 };
 
-// Helper function to print PizzaOrder vector
-void printOrders(const std::vector<PizzaOrder>& orders) {
-    for (const auto& order : orders) {
-        std::cout << "Name: " << order.name << ", Size: " << order.size << " inches\n";
-    }
-}
-
-// Challenge 3: Struct with price
+// Struct with price
 struct PizzaOrderWithPrice {
-    std::string name;
+    string name;
     int size;
     double price;
 };
 
-// Helper function to print PizzaOrderWithPrice vector
-auto printOrdersWithPrice = [](const std::vector<PizzaOrderWithPrice>& orders) {
-    for (const auto& order : orders) {
-        std::cout << "Name: " << order.name << ", Size: " << order.size
-                  << " inches, Price: $" << order.price << '\n';
+// Print helpers
+void printOrders(const vector<PizzaOrder>& orders) {
+    for (size_t i = 0; i < orders.size(); ++i) {
+        cout << orders[i].name << " " << orders[i].size << " inches";
+        if (i != orders.size() - 1) cout << "\n";
     }
-};
+}
+
+
+void printOrdersWithPrice(const vector<PizzaOrderWithPrice>& orders) {
+    for (size_t i = 0; i < orders.size(); ++i) {
+        cout << orders[i].name << " " << orders[i].size << " inches $" << orders[i].price;
+        if (i != orders.size() - 1) cout << "\n";
+    }
+}
+
 
 int main() {
-    std::vector<PizzaOrder> pizzaOrders = {
-        {"Margherita", 12},
-        {"Pepperoni", 16},
-        {"Veggie", 10},
-        {"Hawaiian", 14},
-        {"BBQ Chicken", 12}
+    cout << endl; 
+
+    // Base pizza order data
+    vector<PizzaOrder> pizzaOrders = {
+        {"Alice", 12},
+        {"Bob", 16},
+        {"Charlie", 10},
+        {"Diana", 14}
     };
 
-    std::cout << "=== Challenge 1: Sort by Size (Ascending) ===\n";
-    std::sort(pizzaOrders.begin(), pizzaOrders.end(), [](const PizzaOrder& a, const PizzaOrder& b) {
+    cout << "Original Pizza Orders:\n";
+    printOrders(pizzaOrders); cout<<endl;
+
+    // Challenge 1: Sort by size (ascending)
+    sort(pizzaOrders.begin(), pizzaOrders.end(), [](const PizzaOrder& a, const PizzaOrder& b) {
         return a.size < b.size;
     });
-    printOrders(pizzaOrders);
+    cout << "\nSorted by Size (Ascending):\n";
+    printOrders(pizzaOrders);cout<<endl;
 
-    std::cout << "\n=== Challenge 2: Sort by Name (Alphabetically) ===\n";
-    std::sort(pizzaOrders.begin(), pizzaOrders.end(), [](const PizzaOrder& a, const PizzaOrder& b) {
+    // Challenge 2: Sort by name (alphabetically)
+    sort(pizzaOrders.begin(), pizzaOrders.end(), [](const PizzaOrder& a, const PizzaOrder& b) {
         return a.name < b.name;
     });
-    printOrders(pizzaOrders);
+    cout << "\nSorted by Name (Alphabetical):\n";
+    printOrders(pizzaOrders);cout<<endl;
 
-    std::cout << "\n=== Challenge 3: Sort by Price (Ascending) ===\n";
-    std::vector<PizzaOrderWithPrice> pricedOrders = {
-        {"Margherita", 12, 9.99},
-        {"Pepperoni", 16, 13.50},
-        {"Veggie", 10, 8.75},
-        {"Hawaiian", 14, 11.25},
-        {"BBQ Chicken", 12, 12.00}
+    // Challenge 3: New data with price
+    vector<PizzaOrderWithPrice> pricedOrders = {
+        {"Charlie", 10, 9.99},
+        {"Alice", 12, 11.99},
+        {"Diana", 14, 13.75},
+        {"Bob", 16, 15.49}
     };
 
-    std::sort(pricedOrders.begin(), pricedOrders.end(), [](const PizzaOrderWithPrice& a, const PizzaOrderWithPrice& b) {
+    sort(pricedOrders.begin(), pricedOrders.end(), [](const PizzaOrderWithPrice& a, const PizzaOrderWithPrice& b) {
         return a.price < b.price;
     });
+    cout << "\nSorted by Price (Ascending):\n";
     printOrdersWithPrice(pricedOrders);
 
-    return 0;
+    return 0; 
 }
+
